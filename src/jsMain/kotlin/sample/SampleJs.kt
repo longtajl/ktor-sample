@@ -10,12 +10,12 @@ actual object Platform {
     actual val name: String = "JS"
 }
 
-
 @Suppress("unused")
 @JsName("helloWorld")
 fun helloWorld(salutation: String) {
     val message = "$salutation from Kotlin.JS ${hello()}, check me value: ${Sample().checkMe()}"
     document.getElementById("js-response")?.textContent = message
+    console.log(salutation)
 }
 
 fun main() {

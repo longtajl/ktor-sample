@@ -34,19 +34,22 @@ class MainTemplate : Template<HTML> {
         head {
             link { href = "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" }
             link(rel = "stylesheet", href = "/styles.css", type = "text/css")
+            script(src = "/static/sample.js") { }
             title { +"Template" }
         }
         body {
             header(classes = "header") {
                 h1 {
-                    + hello()
+                    +hello()
                 }
             }
-            div(classes = "side") {
-                insert(MenuTemplate(), sideMenu)
-            }
-            div(classes = "main") {
-                insert(content)
+            div(classes = "flexBox") {
+                section(classes = "main") {
+                    insert(content)
+                }
+                section(classes = "side") {
+                    insert(MenuTemplate(), sideMenu)
+                }
             }
         }
     }

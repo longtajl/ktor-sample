@@ -1,16 +1,20 @@
 package sample
 
-import io.ktor.application.*
+import io.ktor.application.ApplicationCall
+import io.ktor.application.call
+import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.html.*
+import io.ktor.html.respondHtmlTemplate
 import io.ktor.http.ContentType
-import io.ktor.http.content.*
+import io.ktor.http.content.resource
+import io.ktor.http.content.static
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.routing.get
+import io.ktor.routing.routing
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
 import kotlinx.css.*
 import sample.lib.APIClient
 import sample.template.MultiColumnTemplate
@@ -42,11 +46,11 @@ fun main(args: Array<String>) {
             }
 
             get("/") {
-                val list = (1..2000).map { "test$it" }
+                val list = (1..4).map { "test$it" }
                 call.respondHtmlTemplate(MultiColumnTemplate()) {
-                    column2 {
+                    column1 {
                         list.forEach {
-                            + it
+                            +it
                         }
                     }
                 }
@@ -59,7 +63,7 @@ fun main(args: Array<String>) {
 
                     }
                     column2 {
-                        a.pinpointLocations.forEach { + "${it.name} ${it.link}" }
+                        a.pinpointLocations.forEach { +"${it.name} ${it.link}" }
                     }
                 }
             }
@@ -73,7 +77,20 @@ fun main(args: Array<String>) {
                     body {
                         marginRight = LinearDimension.auto
                         marginLeft = LinearDimension.auto
-                        width = LinearDimension("900px")
+                        width = LinearDimension("640px")
+                    }
+                    rule(".side") {
+                        backgroundColor = Color("#fcc")
+                        width = LinearDimension("180px")
+                        flexGrow = 1.0
+                    }
+                    rule(".main") {
+                        backgroundColor = Color("#fea")
+                        flexGrow = 5.0
+                    }
+                    rule(".flexBox") {
+                        backgroundColor = Color.blue
+                        display = Display.flex
                     }
                     h1 {
                         color = Color.blue
